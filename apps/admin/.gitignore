@@ -1,0 +1,90 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# ============================================
+# Compiled output
+# ============================================
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/.angular/cache
+*.tsbuildinfo
+
+# ============================================
+# Node & Dependencies
+# ============================================
+/node_modules
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ============================================
+# Environment Variables & Sensitive Data
+# ============================================
+.env
+.env.*
+.env.local
+.env.development.local
+.env.staging.local
+.env.production.local
+!.env.example
+!.env.template
+
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+config/secrets.*
+
+# Firebase or other service configs with sensitive data
+firebase-config.ts
+firebaseConfig.ts
+**/environment.prod.ts
+**/environment.staging.ts
+
+# ============================================
+# Testing
+# ============================================
+/coverage
+/libpeerconnection.log
+testem.log
+__screenshots__/
+
+# ============================================
+# IDEs and Editors
+# ============================================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# ============================================
+# Miscellaneous
+# ============================================
+.sass-cache/
+/connect.lock
+/typings
+
+# ============================================
+# System files
+# ============================================
+.DS_Store
+.DS_Store?
+Thumbs.db
+desktop.ini
+._*
