@@ -1,38 +1,137 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# ============================================
+# BACKEND - Keep untracked for now
+# ============================================
+apps/backend/
+
+# ============================================
 # Dependencies
-node_modules
+# ============================================
+node_modules/
 .pnp
 .pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+pnpm-debug.log*
 
-# Local env files
+# ============================================
+# Environment Variables & Sensitive Data
+# ============================================
 .env
+.env.*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+!.env.example
+!.env.template
 
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+secrets/
+secrets.json
+config/secrets.*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
 # Testing
-coverage
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+.jest/
+test-results/
+playwright-report/
 
+# ============================================
+# Build Tools
+# ============================================
 # Turbo
-.turbo
+.turbo/
+.turbo.json
 
 # Vercel
-.vercel
+.vercel/
 
+# ============================================
 # Build Outputs
+# ============================================
 .next/
 out/
-build
-dist
+build/
+dist/
+.angular/
+*.tsbuildinfo
 
-
-# Debug
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Misc
+# ============================================
+# IDEs and Editors
+# ============================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/
+
+# ============================================
+# OS Generated Files
+# ============================================
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+.cache/
+.tmp/
+tmp/
+
+# ============================================
+# Misc
+# ============================================
+.next-env.d.ts
