@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: backend-api
+  
+  # Active profile: dev for development  now
+  profiles:
+    active: dev
+
+server:
+  port: 8080
