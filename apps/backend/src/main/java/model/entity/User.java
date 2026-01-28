@@ -1,72 +1,99 @@
 package model.entity;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", 
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_email", columnNames = "email"),
+        @UniqueConstraint(name = "uk_user_username", columnNames = "user_name")
+    },
+    indexes = {
+        @Index(name = "idx_user_email", columnList = "email"),
+        @Index(name = "idx_user_username", columnList = "user_name")
+    }
+)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id ;
+    private Long id;
 
-    @Column(nullable = false)
-    private  String userName ;
-
-    @Column(unique = true , nullable = false,length = 150)
-    @Email
-    private  String email ;
-
-    private  String hashPassword ;
-
-    @Column(length = 50)
-    private  String fullName ;
-
-    @Column(length = 500, nullable = true )
-    private  String bio ;
-
-    private  String profileImageUrl ;
+   
+    @Column(name = "user_name", nullable = false, unique = true, length = 50)
+    private String userName;
 
 
-    private  String contactNumber ;
+    @Column(unique = true, nullable = false, length = 150)
+    private String email;
+
+
+    @Column(name = "hash_password", nullable = false, length = 255)
+    private String hashPassword;
+
+    @Column(name = "full_name", length = 100)
+    private String fullName;
+
+    @Column(length = 1000)
+    private String bio;
+
+    @Column(name = "profile_image_url", length = 500)
+    private String profileImageUrl;
+
+    @Column(name = "contact_number", length = 20)
+    private String contactNumber;
 
     @CreationTimestamp
-    private LocalDateTime created_At ;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
-    @ManyToMany  (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_Id"),
-            inverseJoinColumns = @JoinColumn(name ="role_Id")
+            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_role_user")),
+            inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user_role_role"))
     )
-    private List<Role> roleList = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PastEmployment> pastEmployments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userId")
-    private List<PastEmployment> pastEmploymentList = new ArrayList<>() ;
-
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UiSettings uiSettings ;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private UiSettings uiSettings;
 
-   @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<Payment> payments = new ArrayList<>() ;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Payment> payments = new ArrayList<>();
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

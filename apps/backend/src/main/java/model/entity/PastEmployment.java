@@ -1,4 +1,5 @@
 package model.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +9,15 @@ import model.enums.RoleName;
 
 import java.time.LocalDate;
 
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
+@Table(name = "past_employments",
+    indexes = {
+        @Index(name = "idx_employment_user", columnList = "user_id"),
+        @Index(name = "idx_employment_company", columnList = "company_name"),
+        @Index(name = "idx_employment_current", columnList = "is_current")
+    }
+)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,28 +26,40 @@ public class PastEmployment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User userId ;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_employment_user"))
+    private User user;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "job_role", nullable = false, length = 20)
     private RoleName jobRole;
 
-    @Column(nullable = false)
-    private String companyName ;
+    @Column(name = "company_name", nullable = false, length = 100)
+    private String companyName;
 
-    @CreatedDate
-    private LocalDate startDate ;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @UpdateTimestamp
-    private LocalDate endDate ;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
-    @Column(nullable = false)
-    private Boolean isCurrent ;
+    @Column(name = "is_current", nullable = false)
+    private Boolean isCurrent = false;
 
-    @Column(length = 500 , updatable = true)
-    private String descriptions ;
+    @Column(length = 1000)
+    private String description;
 
+    @Override
+    public String toString() {
+        return "PastEmployment{" +
+                "id=" + id +
+                ", jobRole=" + jobRole +
+                ", companyName='" + companyName + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", isCurrent=" + isCurrent +
+                '}';
+    }
 }
