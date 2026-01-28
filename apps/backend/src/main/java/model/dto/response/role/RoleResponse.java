@@ -1,24 +1,23 @@
-package model.dto.response.skill;
+package model.dto.response.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.RoleName;
 
 import java.time.LocalDateTime;
 
-// Skill info with project usage count
+// User role info for RBAC
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkillResponse {
-    
+public class RoleResponse {
+
     private Long id;
-    private String name;
-    private String category;
-    private Integer proficiencyLevel;
-    private String icon;
-    private Integer projectCount;
+    private RoleName roleName;
+    private String description;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
