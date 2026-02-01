@@ -1,4 +1,6 @@
-## DTO model Design references from
+## References
+
+## DTO model Design 
 ``https://www.baeldung.com/jpa-entities``
 
 ## DTO model Design references from
