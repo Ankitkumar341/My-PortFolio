@@ -1,13 +1,18 @@
 package mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
+import model.dto.response.role.RoleResponse;
+import model.entity.Role;
+import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+import java.util.List;
+
+@Mapper(
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface RoleMapper {
     
-    // RoleDTO toDTO(Role role);
-    // Role toEntity(RoleDTO dto);
-    // List<RoleDTO> toDTOList(List<Role> roles);
+    RoleResponse toResponse(Role role);
     
+    List<RoleResponse> toResponseList(List<Role> roles);
 }
