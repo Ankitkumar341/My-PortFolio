@@ -1,13 +1,49 @@
 package mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
+import model.dto.reqeust.user.UserCreateRequest;
+import model.dto.reqeust.user.UserUpdateRequest;
+import model.dto.response.user.UserListResponse;
+import model.dto.response.user.UserResponse;
+import model.entity.User;
+import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+import java.util.List;
+
+@Mapper(
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    uses = {RoleMapper.class},
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface UserMapper {
     
-    // UserDTO toDTO(User user);
-    // User toEntity(UserDTO dto);
-    // List<UserDTO> toDTOList(List<User> users);
+    UserResponse toResponse(User user);
     
+    UserListResponse toListResponse(User user);
+    
+    List<UserResponse> toResponseList(List<User> users);
+    List<UserListResponse> toListResponseList(List<User> users);
+    
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "hashPassword", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "payments", ignore = true)
+    @Mapping(target = "chatMessages", ignore = true)
+    @Mapping(target = "pastEmployments", ignore = true)
+    @Mapping(target = "uiSettings", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    User toEntity(UserCreateRequest request);
+    
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userName", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "hashPassword", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "payments", ignore = true)
+    @Mapping(target = "chatMessages", ignore = true)
+    @Mapping(target = "pastEmployments", ignore = true)
+    @Mapping(target = "uiSettings", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateEntity(UserUpdateRequest request, @MappingTarget User user);
 }

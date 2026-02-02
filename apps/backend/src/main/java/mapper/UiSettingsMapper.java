@@ -1,12 +1,19 @@
 package mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
+import model.dto.reqeust.settings.UiSettingsUpdateRequest;
+import model.dto.response.settings.UiSettingsResponse;
+import model.entity.UiSettings;
+import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface UiSettingsMapper {
     
-    // UiSettingsDTO toDTO(UiSettings settings);
-    // UiSettings toEntity(UiSettingsDTO dto);
+    UiSettingsResponse toResponse(UiSettings settings);
     
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    void updateEntity(UiSettingsUpdateRequest request, @MappingTarget UiSettings settings);
 }
